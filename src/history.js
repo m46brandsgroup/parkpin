@@ -1,9 +1,17 @@
 import {distance,validSpot} from './geo.js';
+import {MAX_TRACK_POINTS} from './navigation.js';
 export const HISTORY_KEY='parkpin-history';
 export const MAX_RECORDS=10000;
 export function normalizeRecord(p){
  if(!validSpot(p)||!Number.isSafeInteger(p.time)||p.time<0||p.time>Date.now()+300000||typeof p.id!=='string'||!p.id.length||p.id.length>128||!Number.isFinite(p.accuracy)||p.accuracy<0||p.accuracy>100000||typeof p.hasLeft!=='boolean'||!(p.endedAt===null||(Number.isSafeInteger(p.endedAt)&&p.endedAt>=p.time&&p.endedAt<=Date.now()+300000))||!['returned','manual',null].includes(p.endReason)||(p.endedAt===null)!==(p.endReason===null))throw Error('Invalid parking record. Import a Parkpin JSON export.');
- return {id:p.id,coords:[...p.coords],time:p.time,accuracy:p.accuracy,hasLeft:p.hasLeft,endedAt:p.endedAt,endReason:p.endReason};
+ const track=p.track??[];
+ if(!Array.isArray(track)||track.length>MAX_TRACK_POINTS)throw Error('Invalid recorded track.');
+ let lastTime=p.time-1;
+ const points=track.map(point=>{
+  if(!validSpot(point)||!Number.isSafeInteger(point.time)||point.time<lastTime||point.time<p.time||point.time>(p.endedAt??Date.now()+300000)||!Number.isFinite(point.accuracy)||point.accuracy<0||point.accuracy>100000)throw Error('Invalid recorded track.');
+  lastTime=point.time;return {coords:[...point.coords],time:point.time,accuracy:point.accuracy};
+ });
+ return {track:points,id:p.id,coords:[...p.coords],time:p.time,accuracy:p.accuracy,hasLeft:p.hasLeft,endedAt:p.endedAt,endReason:p.endReason};
 }
 export function validateHistory(data){
  if(!data||data.version!==1||!Array.isArray(data.records)||data.records.length>MAX_RECORDS)throw Error('Unsupported backup. Use a Parkpin version 1 JSON export (up to 10,000 records).');
