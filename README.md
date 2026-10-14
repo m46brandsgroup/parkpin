@@ -60,6 +60,6 @@ Recorded GPS points persist with each parking session and are included in JSON b
 
 Navigation uses Mapbox Standard night lighting, a blue maneuver panel, a direction marker and a compact arrival summary. Maneuver distance and remaining walking time update from GPS projected onto the route's step geometry between Directions API refreshes. Upcoming arrows represent walking maneuvers, not vehicle lanes. Walking away from the route by more than 35 m (or reported GPS accuracy) requests a reroute after a minimum 5-second request interval.
 
-The bottom chevron expands parking controls/history; the top handle still collapses the card. Route overview fits the full path; the upper-left arrow resumes live following. Exact 3D building detail depends on Mapbox coverage for your actual location.
+The bottom chevron expands parking controls/history; the top handle still collapses the card. The upper-left arrow resumes live following. A visible loading prompt appears while GPS is being acquired. Exact 3D building detail depends on Mapbox coverage for your actual location.
 
 `node scripts/check-turn-guidance.mjs` checks movement through two turns, off-route recalculation and navigation controls with mocked routes/GPS. Physical-device GPS still needs a walking test.
