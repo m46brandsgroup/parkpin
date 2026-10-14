@@ -19,3 +19,4 @@ body:has(.parking-card.is-collapsed) .mapboxgl-ctrl-bottom-left{bottom:calc(66px
 
 /* Compact, lighter brand mark. */
 .brand{font-weight:500;font-size:24px;letter-spacing:-1px}.brand-icon{width:32px;height:35px;font-size:19px;font-weight:500;border-radius:11px 11px 11px 3px;margin-right:8px}@media(max-width:600px){.brand{font-size:22px}.brand-icon{width:29px;height:32px;font-size:18px}}
+.location-error{position:fixed;z-index:21;left:50%;top:40%;transform:translate(-50%,-50%);width:min(365px,calc(100vw - 32px));padding:21px;border:1px solid #e0e5d7;border-radius:18px;background:#fcfdf8;color:#304632;box-shadow:0 12px 45px #12231c35}.location-error>strong{font-size:16px}.location-error p{font-size:12px;line-height:1.6;color:#65745e}.location-error .location-error-help{font-size:11px;color:#7b8773}.location-error button{width:100%}.is-navigating .location-error{background:#242c36;border-color:#3b4658;color:#f1f5ff}.is-navigating .location-error p{color:#b8c7de}
